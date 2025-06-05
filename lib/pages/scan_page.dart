@@ -9,6 +9,7 @@ import '../services/location_service.dart';
 import '../widgets/loading_overlay.dart';
 import 'dart:io';
 import '../pages/main_layout.dart';
+import '../pages/feed_page.dart';
 
 // Provider to access PageController globally
 final pageControllerProvider = Provider<PageController>((ref) {
@@ -56,15 +57,11 @@ class _ScanPageState extends ConsumerState<ScanPage> {
     });
 
     try {
-      // Get location data first
       final locationData = await LocationService.getLocationData();
-
-      // Create post
       final success = await _postService.createPost(_imageFile!.path);
 
       if (mounted) {
         if (success) {
-          // Show success message with location if available
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
@@ -76,14 +73,16 @@ class _ScanPageState extends ConsumerState<ScanPage> {
             ),
           );
 
-          // Reset state and navigate
           setState(() {
             _imageFile = null;
             _isPreviewMode = false;
           });
 
-          // Navigate to feed
           ref.read(currentPageProvider.notifier).state = 1;
+          await Future.delayed(const Duration(milliseconds: 100));
+          if (mounted) {
+            ref.read(postsProvider.notifier).refreshPosts();
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -136,88 +135,68 @@ class _ScanPageState extends ConsumerState<ScanPage> {
     }
   }
 
-  Widget _buildPermissionDeniedWidget() {
+  @override
+  Widget build(BuildContext context) {
     final permissionStatus = ref.watch(cameraPermissionProvider);
-    final bool isPermanentlyDenied = permissionStatus.isPermanentlyDenied;
-    final bool isFirstRequest = permissionStatus == PermissionStatus.denied;
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              isPermanentlyDenied ? Icons.no_photography : Icons.camera_alt,
-              size: 64,
-              color: isPermanentlyDenied ? Colors.red : Colors.grey,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              isPermanentlyDenied
-                  ? 'Camera Access Required'
-                  : isFirstRequest
-                  ? 'Camera Permission'
-                  : 'Camera Permission Required',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              isPermanentlyDenied
-                  ? 'Please enable camera access in your device settings to use this feature.'
-                  : isFirstRequest
-                  ? 'This app needs access to your camera to take photos.'
-                  : 'Please grant camera permission to use this feature.',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 32),
-            if (!isPermanentlyDenied)
-              ElevatedButton.icon(
-                onPressed: () async {
-                  final granted =
-                      await ref
-                          .read(cameraPermissionProvider.notifier)
-                          .requestPermission();
-                  if (!granted && mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Camera permission is required'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
-                  }
-                },
-                icon: const Icon(Icons.camera_alt),
-                label: Text(
-                  isFirstRequest ? 'Allow Camera Access' : 'Grant Permission',
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                ),
-              ),
-            if (isPermanentlyDenied)
-              ElevatedButton.icon(
-                onPressed: openAppSettings,
-                icon: const Icon(Icons.settings),
-                label: const Text('Open Settings'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                ),
-              ),
-          ],
+    return Scaffold(
+      body: LoadingOverlay(
+        isLoading: _isCreatingPost,
+        message: 'Creating post...',
+        child: Container(
+          color: Colors.black,
+          child: SafeArea(
+            child:
+                permissionStatus.isGranted
+                    ? _isPreviewMode
+                        ? ImagePreviewWidget(
+                          imageFile: _imageFile,
+                          onRetake: _retakePicture,
+                          onConfirm: _isCreatingPost ? null : _createPost,
+                        )
+                        : CameraWidget(
+                          onTakePicture: _takePicture,
+                          onSwitchCamera: _handleCameraSwitch,
+                          isSwitchingCamera: _isSwitchingCamera,
+                        )
+                    : CameraPermissionWidget(
+                      permissionStatus: permissionStatus,
+                      onRequestPermission: () async {
+                        final granted =
+                            await ref
+                                .read(cameraPermissionProvider.notifier)
+                                .requestPermission();
+                        if (!granted && mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Camera permission is required'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+          ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildCameraPreview() {
+class CameraWidget extends ConsumerWidget {
+  final VoidCallback onTakePicture;
+  final VoidCallback onSwitchCamera;
+  final bool isSwitchingCamera;
+
+  const CameraWidget({
+    required this.onTakePicture,
+    required this.onSwitchCamera,
+    required this.isSwitchingCamera,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Consumer(
       builder: (context, ref, child) {
         final cameraAsync = ref.watch(cameraControllerProvider);
@@ -258,47 +237,11 @@ class _ScanPageState extends ConsumerState<ScanPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      color: Colors.black,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          if (cameras.length > 1)
-                            FloatingActionButton(
-                              heroTag: 'switchCamera',
-                              onPressed:
-                                  _isSwitchingCamera
-                                      ? null
-                                      : _handleCameraSwitch,
-                              backgroundColor: Colors.white54,
-                              child:
-                                  _isSwitchingCamera
-                                      ? const SizedBox(
-                                        width: 24,
-                                        height: 24,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                      : const Icon(
-                                        Icons.flip_camera_ios,
-                                        color: Colors.black,
-                                      ),
-                            ),
-                          FloatingActionButton(
-                            heroTag: 'takePicture',
-                            onPressed: _takePicture,
-                            backgroundColor: Colors.white,
-                            child: const Icon(
-                              Icons.camera_alt,
-                              color: Colors.black,
-                            ),
-                          ),
-                          if (cameras.length > 1) const SizedBox(width: 56),
-                        ],
-                      ),
+                    CameraControls(
+                      isSwitchingCamera: isSwitchingCamera,
+                      onSwitchCamera: onSwitchCamera,
+                      onTakePicture: onTakePicture,
+                      cameraCount: cameras.length,
                     ),
                   ],
                 ),
@@ -309,9 +252,75 @@ class _ScanPageState extends ConsumerState<ScanPage> {
       },
     );
   }
+}
 
-  Widget _buildImagePreview() {
-    if (_imageFile == null) return const SizedBox.shrink();
+class CameraControls extends StatelessWidget {
+  final bool isSwitchingCamera;
+  final VoidCallback onSwitchCamera;
+  final VoidCallback onTakePicture;
+  final int cameraCount;
+
+  const CameraControls({
+    required this.isSwitchingCamera,
+    required this.onSwitchCamera,
+    required this.onTakePicture,
+    required this.cameraCount,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      color: Colors.black,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          if (cameraCount > 1)
+            FloatingActionButton(
+              heroTag: 'switchCamera',
+              onPressed: isSwitchingCamera ? null : onSwitchCamera,
+              backgroundColor: Colors.white54,
+              child:
+                  isSwitchingCamera
+                      ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.black,
+                        ),
+                      )
+                      : const Icon(Icons.flip_camera_ios, color: Colors.black),
+            ),
+          FloatingActionButton(
+            heroTag: 'takePicture',
+            onPressed: onTakePicture,
+            backgroundColor: Colors.white,
+            child: const Icon(Icons.camera_alt, color: Colors.black),
+          ),
+          if (cameraCount > 1) const SizedBox(width: 56),
+        ],
+      ),
+    );
+  }
+}
+
+class ImagePreviewWidget extends StatelessWidget {
+  final XFile? imageFile;
+  final VoidCallback onRetake;
+  final VoidCallback? onConfirm;
+
+  const ImagePreviewWidget({
+    required this.imageFile,
+    required this.onRetake,
+    required this.onConfirm,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (imageFile == null) return const SizedBox.shrink();
 
     return Stack(
       fit: StackFit.expand,
@@ -320,7 +329,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
         Center(
           child: AspectRatio(
             aspectRatio: 1.0,
-            child: Image.file(File(_imageFile!.path), fit: BoxFit.cover),
+            child: Image.file(File(imageFile!.path), fit: BoxFit.cover),
           ),
         ),
         Positioned(
@@ -332,13 +341,13 @@ class _ScanPageState extends ConsumerState<ScanPage> {
             children: [
               FloatingActionButton(
                 heroTag: 'retake',
-                onPressed: _retakePicture,
+                onPressed: onRetake,
                 backgroundColor: Colors.red,
                 child: const Icon(Icons.refresh),
               ),
               FloatingActionButton(
                 heroTag: 'confirm',
-                onPressed: _isCreatingPost ? null : _createPost,
+                onPressed: onConfirm,
                 backgroundColor: Colors.green,
                 child: const Icon(Icons.check),
               ),
@@ -348,25 +357,81 @@ class _ScanPageState extends ConsumerState<ScanPage> {
       ],
     );
   }
+}
+
+class CameraPermissionWidget extends StatelessWidget {
+  final PermissionStatus permissionStatus;
+  final VoidCallback onRequestPermission;
+
+  const CameraPermissionWidget({
+    required this.permissionStatus,
+    required this.onRequestPermission,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final permissionStatus = ref.watch(cameraPermissionProvider);
+    final bool isPermanentlyDenied = permissionStatus.isPermanentlyDenied;
+    final bool isFirstRequest = permissionStatus == PermissionStatus.denied;
 
-    return Scaffold(
-      body: LoadingOverlay(
-        isLoading: _isCreatingPost,
-        message: 'Creating post...',
-        child: Container(
-          color: Colors.black,
-          child: SafeArea(
-            child:
-                permissionStatus.isGranted
-                    ? _isPreviewMode
-                        ? _buildImagePreview()
-                        : _buildCameraPreview()
-                    : _buildPermissionDeniedWidget(),
-          ),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isPermanentlyDenied ? Icons.no_photography : Icons.camera_alt,
+              size: 64,
+              color: isPermanentlyDenied ? Colors.red : Colors.grey,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              isPermanentlyDenied
+                  ? 'Camera Access Required'
+                  : isFirstRequest
+                  ? 'Camera Permission'
+                  : 'Camera Permission Required',
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              isPermanentlyDenied
+                  ? 'Please enable camera access in your device settings to use this feature.'
+                  : isFirstRequest
+                  ? 'This app needs access to your camera to take photos.'
+                  : 'Please grant camera permission to use this feature.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 32),
+            if (!isPermanentlyDenied)
+              ElevatedButton.icon(
+                onPressed: onRequestPermission,
+                icon: const Icon(Icons.camera_alt),
+                label: Text(
+                  isFirstRequest ? 'Allow Camera Access' : 'Grant Permission',
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                ),
+              ),
+            if (isPermanentlyDenied)
+              ElevatedButton.icon(
+                onPressed: openAppSettings,
+                icon: const Icon(Icons.settings),
+                label: const Text('Open Settings'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );

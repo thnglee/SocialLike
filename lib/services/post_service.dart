@@ -187,17 +187,20 @@ class PostService {
     try {
       _logPost('START', 'Creating new post...');
 
-      // Get location data with detailed logging
-      final locationData = await LocationService.getLocationData();
+      // Run location fetch and image processing in parallel
+      final results = await Future.wait([
+        LocationService.getLocationData(),
+        _compressAndUploadImage(imagePath),
+      ]);
+
+      final locationData = results[0] as Map<String, dynamic>?;
+      final imageUrl = results[1] as String;
 
       if (locationData == null) {
         _logPost('WARNING', 'Location data not available');
       } else {
         _logPost('LOCATION', 'Location data retrieved', metadata: locationData);
       }
-
-      // Upload image
-      final imageUrl = await _compressAndUploadImage(imagePath);
 
       // Get current user
       final user = _supabase.auth.currentUser;
