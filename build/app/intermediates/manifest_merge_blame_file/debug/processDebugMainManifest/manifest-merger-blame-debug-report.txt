@@ -1,0 +1,291 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.social_log_in"
+4    android:versionCode="1"
+5    android:versionName="0.1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="35" />
+10    <!--
+11         The INTERNET permission is required for development. Specifically,
+12         the Flutter tool needs it to communicate with the running application
+13         to allow setting breakpoints, to provide hot reload, etc.
+14    -->
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:7:5-66
+15-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:7:22-64
+16    <uses-permission android:name="android.permission.CAMERA" />
+16-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:3:5-65
+16-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:3:22-62
+17    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+17-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:4:5-76
+17-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:4:22-74
+18    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+18-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:5:5-78
+18-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:5:22-76
+19    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+19-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:6:5-80
+19-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:6:22-78
+20
+21    <uses-feature android:name="android.hardware.camera" />
+21-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:8:5-60
+21-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:8:19-57
+22    <uses-feature android:name="android.hardware.camera.autofocus" />
+22-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:9:5-70
+22-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:9:19-67
+23    <!--
+24 Required to query activities that can process text, see:
+25         https://developer.android.com/training/package-visibility and
+26         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+27
+28         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin.
+29    -->
+30    <queries>
+30-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:58:5-63:15
+31        <intent>
+31-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:59:9-62:18
+32            <action android:name="android.intent.action.PROCESS_TEXT" />
+32-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:60:13-72
+32-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:60:21-70
+33
+34            <data android:mimeType="text/plain" />
+34-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:61:13-50
+34-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:61:19-48
+35        </intent>
+36    </queries>
+37
+38    <uses-feature android:name="android.hardware.camera.any" />
+38-->[:camera_android_camerax] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/camera_android_camerax/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-64
+38-->[:camera_android_camerax] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/camera_android_camerax/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:19-61
+39
+40    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+40-->[:camera_android_camerax] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/camera_android_camerax/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:10:5-71
+40-->[:camera_android_camerax] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/camera_android_camerax/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:10:22-68
+41    <uses-permission
+41-->[:camera_android_camerax] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/camera_android_camerax/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:11:5-13:38
+42        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+42-->[:camera_android_camerax] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/camera_android_camerax/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:12:9-65
+43        android:maxSdkVersion="28" />
+43-->[:camera_android_camerax] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/camera_android_camerax/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:13:9-35
+44    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+45    <uses-permission android:name="android.permission.VIBRATE" />
+45-->[:haptic_feedback] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/haptic_feedback/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:5-66
+45-->[:haptic_feedback] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/haptic_feedback/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:7:22-63
+46
+47    <permission
+47-->[androidx.core:core:1.13.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/8cf478dec41eed746328fa8046755ba2/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+48        android:name="com.example.social_log_in.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+48-->[androidx.core:core:1.13.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/8cf478dec41eed746328fa8046755ba2/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+49        android:protectionLevel="signature" />
+49-->[androidx.core:core:1.13.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/8cf478dec41eed746328fa8046755ba2/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+50
+51    <uses-permission android:name="com.example.social_log_in.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+51-->[androidx.core:core:1.13.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/8cf478dec41eed746328fa8046755ba2/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+51-->[androidx.core:core:1.13.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/8cf478dec41eed746328fa8046755ba2/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+52
+53    <application
+54        android:name="android.app.Application"
+55        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+55-->[androidx.core:core:1.13.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/8cf478dec41eed746328fa8046755ba2/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+56        android:debuggable="true"
+57        android:extractNativeLibs="true"
+58        android:icon="@mipmap/ic_launcher"
+59        android:label="social_log_in" >
+60        <activity
+61            android:name="com.example.social_log_in.MainActivity"
+62            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+63            android:exported="true"
+64            android:hardwareAccelerated="true"
+65            android:launchMode="singleTop"
+66            android:taskAffinity=""
+67            android:theme="@style/LaunchTheme"
+68            android:windowSoftInputMode="adjustResize" >
+69
+70            <!--
+71                 Specifies an Android theme to apply to this Activity as soon as
+72                 the Android process has started. This theme is visible to the user
+73                 while the Flutter UI initializes. After that, this theme continues
+74                 to determine the Window background behind the Flutter UI.
+75            -->
+76            <meta-data
+77                android:name="io.flutter.embedding.android.NormalTheme"
+78                android:resource="@style/NormalTheme" />
+79
+80            <intent-filter>
+81                <action android:name="android.intent.action.MAIN" />
+82
+83                <category android:name="android.intent.category.LAUNCHER" />
+84            </intent-filter>
+85            <!-- Deep linking -->
+86            <intent-filter>
+87                <action android:name="android.intent.action.VIEW" />
+88
+89                <category android:name="android.intent.category.DEFAULT" />
+90                <category android:name="android.intent.category.BROWSABLE" />
+91                <!-- Accepts URIs that begin with "com.example.social_log_in://" -->
+92                <data
+92-->/Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/android/app/src/main/AndroidManifest.xml:61:13-50
+93                    android:host="login"
+94                    android:scheme="com.example.social_log_in" />
+95            </intent-filter>
+96        </activity>
+97        <!--
+98             Don't delete the meta-data below.
+99             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+100        -->
+101        <meta-data
+102            android:name="flutterEmbedding"
+103            android:value="2" />
+104
+105        <service
+105-->[androidx.camera:camera-camera2:1.5.0-beta01] /Users/thanglee/.gradle/caches/8.10.2/transforms/65f8a731866b2db1fdba6bbeea6a3bba/transformed/jetified-camera-camera2-1.5.0-beta01/AndroidManifest.xml:24:9-33:19
+106            android:name="androidx.camera.core.impl.MetadataHolderService"
+106-->[androidx.camera:camera-camera2:1.5.0-beta01] /Users/thanglee/.gradle/caches/8.10.2/transforms/65f8a731866b2db1fdba6bbeea6a3bba/transformed/jetified-camera-camera2-1.5.0-beta01/AndroidManifest.xml:25:13-75
+107            android:enabled="false"
+107-->[androidx.camera:camera-camera2:1.5.0-beta01] /Users/thanglee/.gradle/caches/8.10.2/transforms/65f8a731866b2db1fdba6bbeea6a3bba/transformed/jetified-camera-camera2-1.5.0-beta01/AndroidManifest.xml:26:13-36
+108            android:exported="false" >
+108-->[androidx.camera:camera-camera2:1.5.0-beta01] /Users/thanglee/.gradle/caches/8.10.2/transforms/65f8a731866b2db1fdba6bbeea6a3bba/transformed/jetified-camera-camera2-1.5.0-beta01/AndroidManifest.xml:27:13-37
+109            <meta-data
+109-->[androidx.camera:camera-camera2:1.5.0-beta01] /Users/thanglee/.gradle/caches/8.10.2/transforms/65f8a731866b2db1fdba6bbeea6a3bba/transformed/jetified-camera-camera2-1.5.0-beta01/AndroidManifest.xml:30:13-32:89
+110                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+110-->[androidx.camera:camera-camera2:1.5.0-beta01] /Users/thanglee/.gradle/caches/8.10.2/transforms/65f8a731866b2db1fdba6bbeea6a3bba/transformed/jetified-camera-camera2-1.5.0-beta01/AndroidManifest.xml:31:17-103
+111                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+111-->[androidx.camera:camera-camera2:1.5.0-beta01] /Users/thanglee/.gradle/caches/8.10.2/transforms/65f8a731866b2db1fdba6bbeea6a3bba/transformed/jetified-camera-camera2-1.5.0-beta01/AndroidManifest.xml:32:17-86
+112        </service>
+113        <service
+113-->[:geolocator_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/geolocator_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:9-12:56
+114            android:name="com.baseflow.geolocator.GeolocatorLocationService"
+114-->[:geolocator_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/geolocator_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:9:13-77
+115            android:enabled="true"
+115-->[:geolocator_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/geolocator_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:10:13-35
+116            android:exported="false"
+116-->[:geolocator_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/geolocator_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:11:13-37
+117            android:foregroundServiceType="location" />
+117-->[:geolocator_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/geolocator_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:12:13-53
+118
+119        <activity
+119-->[:url_launcher_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/url_launcher_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:8:9-11:74
+120            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+120-->[:url_launcher_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/url_launcher_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:9:13-74
+121            android:exported="false"
+121-->[:url_launcher_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/url_launcher_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:10:13-37
+122            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+122-->[:url_launcher_android] /Users/thanglee/something beautiful/flutter experiment todo/SocialLog/social_log_in/build/url_launcher_android/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:11:13-71
+123
+124        <uses-library
+124-->[androidx.window:window:1.2.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/5093ab42d2307deb2d7ac0b7f5718c38/transformed/jetified-window-1.2.0/AndroidManifest.xml:23:9-25:40
+125            android:name="androidx.window.extensions"
+125-->[androidx.window:window:1.2.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/5093ab42d2307deb2d7ac0b7f5718c38/transformed/jetified-window-1.2.0/AndroidManifest.xml:24:13-54
+126            android:required="false" />
+126-->[androidx.window:window:1.2.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/5093ab42d2307deb2d7ac0b7f5718c38/transformed/jetified-window-1.2.0/AndroidManifest.xml:25:13-37
+127        <uses-library
+127-->[androidx.window:window:1.2.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/5093ab42d2307deb2d7ac0b7f5718c38/transformed/jetified-window-1.2.0/AndroidManifest.xml:26:9-28:40
+128            android:name="androidx.window.sidecar"
+128-->[androidx.window:window:1.2.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/5093ab42d2307deb2d7ac0b7f5718c38/transformed/jetified-window-1.2.0/AndroidManifest.xml:27:13-51
+129            android:required="false" />
+129-->[androidx.window:window:1.2.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/5093ab42d2307deb2d7ac0b7f5718c38/transformed/jetified-window-1.2.0/AndroidManifest.xml:28:13-37
+130
+131        <activity
+131-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:23:9-27:75
+132            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+132-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:24:13-93
+133            android:excludeFromRecents="true"
+133-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:25:13-46
+134            android:exported="false"
+134-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:26:13-37
+135            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+135-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:27:13-72
+136        <!--
+137            Service handling Google Sign-In user revocation. For apps that do not integrate with
+138            Google Sign-In, this service will never be started.
+139        -->
+140        <service
+140-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:33:9-37:51
+141            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+141-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:34:13-89
+142            android:exported="true"
+142-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:35:13-36
+143            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+143-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:36:13-107
+144            android:visibleToInstantApps="true" />
+144-->[com.google.android.gms:play-services-auth:21.0.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/41fd65a6a815b5614b87b654f9cfd65e/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:37:13-48
+145
+146        <activity
+146-->[com.google.android.gms:play-services-base:18.3.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/9db9b81a577112600e8d2ee7b5450923/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:20:9-22:45
+147            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+147-->[com.google.android.gms:play-services-base:18.3.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/9db9b81a577112600e8d2ee7b5450923/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:20:19-85
+148            android:exported="false"
+148-->[com.google.android.gms:play-services-base:18.3.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/9db9b81a577112600e8d2ee7b5450923/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:22:19-43
+149            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+149-->[com.google.android.gms:play-services-base:18.3.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/9db9b81a577112600e8d2ee7b5450923/transformed/jetified-play-services-base-18.3.0/AndroidManifest.xml:21:19-78
+150
+151        <meta-data
+151-->[com.google.android.gms:play-services-basement:18.3.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/abeed4f47a72eff8f5b4e9bf7f2f3c91/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:21:9-23:69
+152            android:name="com.google.android.gms.version"
+152-->[com.google.android.gms:play-services-basement:18.3.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/abeed4f47a72eff8f5b4e9bf7f2f3c91/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:22:13-58
+153            android:value="@integer/google_play_services_version" />
+153-->[com.google.android.gms:play-services-basement:18.3.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/abeed4f47a72eff8f5b4e9bf7f2f3c91/transformed/jetified-play-services-basement-18.3.0/AndroidManifest.xml:23:13-66
+154
+155        <provider
+155-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/e80aa748ff6540407d8dba61c0d945fe/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+156            android:name="androidx.startup.InitializationProvider"
+156-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/e80aa748ff6540407d8dba61c0d945fe/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:25:13-67
+157            android:authorities="com.example.social_log_in.androidx-startup"
+157-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/e80aa748ff6540407d8dba61c0d945fe/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:26:13-68
+158            android:exported="false" >
+158-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/e80aa748ff6540407d8dba61c0d945fe/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:27:13-37
+159            <meta-data
+159-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/e80aa748ff6540407d8dba61c0d945fe/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+160                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+160-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/e80aa748ff6540407d8dba61c0d945fe/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+161                android:value="androidx.startup" />
+161-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/thanglee/.gradle/caches/8.10.2/transforms/e80aa748ff6540407d8dba61c0d945fe/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+162            <meta-data
+162-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+163                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+163-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+164                android:value="androidx.startup" />
+164-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+165        </provider>
+166
+167        <receiver
+167-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+168            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+168-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+169            android:directBootAware="false"
+169-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+170            android:enabled="true"
+170-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+171            android:exported="true"
+171-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+172            android:permission="android.permission.DUMP" >
+172-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+173            <intent-filter>
+173-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+174                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+174-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+174-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+175            </intent-filter>
+176            <intent-filter>
+176-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+177                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+177-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+177-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+178            </intent-filter>
+179            <intent-filter>
+179-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+180                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+180-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+180-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+181            </intent-filter>
+182            <intent-filter>
+182-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+183                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+183-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+183-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/thanglee/.gradle/caches/8.10.2/transforms/5f7dcf6815bacc3ae7f099ba801348de/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+184            </intent-filter>
+185        </receiver>
+186    </application>
+187
+188</manifest>

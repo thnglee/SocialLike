@@ -1,0 +1,42 @@
+name: social_log_in
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  supabase_flutter: ^2.3.4
+  flutter_svg: ^2.0.10+1
+  google_fonts: ^6.2.1
+  font_awesome_flutter: ^10.7.0
+  google_sign_in: ^6.2.1
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+  haptic_feedback: ^0.4.2
+  camera: ^0.11.1
+  permission_handler: ^11.3.0
+  geolocator: ^11.0.0
+  geocoding: ^2.2.0
+  path: ^1.8.3
+  path_provider: ^2.1.2
+  timeago: ^3.6.1
+  flutter_image_compress: ^2.1.0
+  uuid: ^4.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  riverpod_generator: ^2.4.0
+  build_runner: ^2.4.8
+  custom_lint: ^0.6.2
+  riverpod_lint: ^2.3.10
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
