@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path/path.dart' as path;
 import '../models/post.dart';
-import 'location_service.dart';
+import 'app_initialization_service.dart';
 
 // Utility function for consistent log formatting
 void _logPost(
@@ -25,34 +25,7 @@ class PostService {
   final SupabaseClient _supabase = Supabase.instance.client;
   static const String _bucketName = 'posts';
   static const Uuid _uuid = Uuid();
-
-  // Verify if bucket exists and is accessible
-  Future<void> _verifyBucket() async {
-    try {
-      final user = _supabase.auth.currentUser;
-      _logPost(
-        'BUCKET',
-        'Verifying bucket access',
-        metadata: {'userId': user?.id, 'bucket': _bucketName},
-      );
-
-      await _supabase.storage.from(_bucketName).list();
-      _logPost('BUCKET', 'Successfully verified bucket access');
-    } catch (e) {
-      _logPost('ERROR', 'Bucket verification failed', error: e);
-      if (e.toString().contains('does not exist')) {
-        throw Exception(
-          'Storage bucket "$_bucketName" does not exist. Please create it in your Supabase dashboard.',
-        );
-      } else if (e.toString().contains('Permission denied')) {
-        throw Exception(
-          'Permission denied. Please check your storage policies.',
-        );
-      } else {
-        throw Exception('Storage bucket "$_bucketName" is not accessible: $e');
-      }
-    }
-  }
+  final AppInitializationService _initService = AppInitializationService();
 
   Future<String> _compressAndUploadImage(String imagePath) async {
     File? compressedFile;
@@ -69,7 +42,9 @@ class PostService {
         },
       );
 
-      await _verifyBucket();
+      if (!_initService.isBucketVerified) {
+        await _initService.verifyBucket();
+      }
 
       final tempDir = await getTemporaryDirectory();
       final targetPath = path.join(tempDir.path, '${_uuid.v4()}.jpg');
@@ -187,100 +162,112 @@ class PostService {
     try {
       _logPost('START', 'Creating new post...');
 
-      // Run location fetch and image processing in parallel
+      // Get current user first since it's needed for other operations
+      final user = _supabase.auth.currentUser;
+      if (user == null) throw Exception('User not authenticated');
+
+      // Start all async operations in parallel
+      final Future<Map<String, dynamic>?> locationFuture =
+          _initService.getLocation();
+      final Future<String> imageFuture = _compressAndUploadImage(imagePath);
+      final Future<Map<String, dynamic>?> profileFuture = _supabase
+          .from('profiles')
+          .select()
+          .eq('id', user.id)
+          .single()
+          .then((value) => value as Map<String, dynamic>?)
+          .catchError((e) => null); // Handle case where profile doesn't exist
+
+      _logPost(
+        'PARALLEL',
+        'Started parallel processing of location, image, and profile',
+      );
+
+      // Wait for all parallel operations to complete
       final results = await Future.wait([
-        LocationService.getLocationData(),
-        _compressAndUploadImage(imagePath),
+        locationFuture,
+        imageFuture,
+        profileFuture,
       ]);
 
       final locationData = results[0] as Map<String, dynamic>?;
       final imageUrl = results[1] as String;
+      final profile = results[2] as Map<String, dynamic>?;
 
-      if (locationData == null) {
-        _logPost('WARNING', 'Location data not available');
-      } else {
+      if (locationData != null) {
         _logPost('LOCATION', 'Location data retrieved', metadata: locationData);
+      } else {
+        _logPost('WARNING', 'Location data not available');
       }
 
-      // Get current user
-      final user = _supabase.auth.currentUser;
-      if (user == null) throw Exception('User not authenticated');
+      _logPost('IMAGE', 'Image upload completed', metadata: {'url': imageUrl});
+
+      // Handle profile creation if needed (only if parallel fetch didn't find one)
+      if (profile == null) {
+        _logPost('PROFILE', 'Creating new user profile');
+        await _supabase.from('profiles').upsert({
+          'id': user.id,
+          'username':
+              user.email?.split('@')[0] ?? 'user_${user.id.substring(0, 8)}',
+          'updated_at': DateTime.now().toIso8601String(),
+        });
+      } else {
+        _logPost(
+          'PROFILE',
+          'Using existing profile',
+          metadata: {'username': profile['username']},
+        );
+      }
 
       // Create post record
-      final response =
-          await _supabase.from('posts').insert({
-            'user_id': user.id,
-            'image_url': imageUrl,
-            'location': locationData?['address'],
-            'latitude': locationData?['latitude'],
-            'longitude': locationData?['longitude'],
-            'username': user.userMetadata?['full_name'] ?? user.email,
-            'user_avatar': user.userMetadata?['avatar_url'],
-          }).select();
+      final postData = {
+        'user_id': user.id,
+        'image_url': imageUrl,
+        'location': locationData?['address'] ?? 'Unknown location',
+        'latitude': locationData?['latitude'] ?? 0.0,
+        'longitude': locationData?['longitude'] ?? 0.0,
+      };
+
+      await _supabase.from('posts').insert(postData);
 
       _logPost(
         'SUCCESS',
         'Post created successfully',
         metadata: {
-          'post_id': response[0]['id'],
-          'image_url': imageUrl,
-          'location': locationData?['address'],
+          'location': postData['location'],
+          'image_url': postData['image_url'],
         },
       );
 
       return true;
     } catch (e) {
-      _logPost(
-        'ERROR',
-        'Failed to create post',
-        metadata: {'error': e.toString()},
-      );
+      _logPost('ERROR', 'Failed to create post', error: e);
       return false;
     }
   }
 
-  Future<void> deletePost(Post post) async {
+  Future<bool> deletePost(Post post) async {
     try {
-      _logPost(
-        'DELETE',
-        'Starting post deletion',
-        metadata: {'postId': post.id},
-      );
+      _logPost('DELETE', 'Deleting post', metadata: {'postId': post.id});
 
-      final user = _supabase.auth.currentUser;
-      if (user == null) throw Exception('User not authenticated');
-
+      // Extract file name from URL
       final uri = Uri.parse(post.imageUrl);
       final fileName = uri.pathSegments.last;
+      final userId = _supabase.auth.currentUser?.id;
 
-      _logPost(
-        'STORAGE',
-        'Deleting image from storage',
-        metadata: {'fileName': fileName},
-      );
+      if (userId == null) throw Exception('User not authenticated');
 
-      await _supabase.storage.from(_bucketName).remove([fileName]);
+      // Delete image from storage
+      await _supabase.storage.from(_bucketName).remove(['$userId/$fileName']);
 
-      _logPost(
-        'DATABASE',
-        'Deleting post from database',
-        metadata: {'postId': post.id},
-      );
+      // Delete post record
+      await _supabase.from('posts').delete().match({'id': post.id});
 
-      await _supabase
-          .from('posts')
-          .delete()
-          .eq('id', post.id)
-          .eq('user_id', user.id);
-
-      _logPost(
-        'SUCCESS',
-        'Post deleted successfully',
-        metadata: {'postId': post.id},
-      );
+      _logPost('SUCCESS', 'Post deleted successfully');
+      return true;
     } catch (e) {
       _logPost('ERROR', 'Failed to delete post', error: e);
-      throw Exception('Failed to delete post: $e');
+      return false;
     }
   }
 }

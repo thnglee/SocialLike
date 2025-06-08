@@ -4,6 +4,7 @@ import 'package:social_log_in/pages/main_layout.dart';
 import 'package:social_log_in/pages/login_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:social_log_in/constants.dart';
+import 'package:social_log_in/services/app_initialization_service.dart';
 
 // Custom page route transition
 class SlidePageRoute<T> extends PageRouteBuilder<T> {
@@ -36,6 +37,9 @@ void main() async {
     url: Constants.supabaseUrl,
     anonKey: Constants.supabaseAnonKey,
   );
+
+  // Initialize app services
+  await AppInitializationService().initialize();
 
   runApp(const ProviderScope(child: MainApp()));
 }

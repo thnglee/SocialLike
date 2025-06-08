@@ -64,7 +64,7 @@ class PostsNotifier extends AsyncNotifier<PaginatedPosts> {
           .from('posts')
           .select('''
             *,
-            profiles!inner (
+            profiles!left (
               username,
               avatar_url
             )
@@ -74,14 +74,14 @@ class PostsNotifier extends AsyncNotifier<PaginatedPosts> {
 
       final posts =
           data.map<Post>((post) {
-            final profile = post['profiles'] as Map<String, dynamic>;
+            final profile = post['profiles'] as Map<String, dynamic>?;
             return Post(
               id: post['id'] as String,
               userId: post['user_id'] as String,
-              username: profile['username'] as String? ?? 'Unknown User',
-              userAvatar: profile['avatar_url'] as String?,
+              username: profile?['username'] as String? ?? 'Unknown User',
+              userAvatar: profile?['avatar_url'] as String?,
               createdAt: DateTime.parse(post['created_at'] as String),
-              location: post['location'] as String,
+              location: post['location'] as String? ?? 'Unknown location',
               latitude:
                   post['latitude'] == null
                       ? 0.0

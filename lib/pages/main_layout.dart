@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:social_log_in/pages/scan_page.dart';
 import 'package:social_log_in/pages/feed_page.dart';
-import 'package:social_log_in/pages/track_page.dart';
 import 'package:social_log_in/pages/settings_page.dart';
 
 final currentPageProvider = StateProvider<int>((ref) => 0);
@@ -56,12 +55,7 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
     });
 
     // List of pages
-    final pages = [
-      const ScanPage(),
-      const FeedPage(),
-      const TrackPage(),
-      const SettingsPage(),
-    ];
+    final pages = [const ScanPage(), const FeedPage(), const SettingsPage()];
 
     return WillPopScope(
       onWillPop: () async {
@@ -99,11 +93,6 @@ class _MainLayoutState extends ConsumerState<MainLayout> {
               icon: Icon(Icons.feed_outlined),
               selectedIcon: Icon(Icons.feed),
               label: 'Feed',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.track_changes_outlined),
-              selectedIcon: Icon(Icons.track_changes),
-              label: 'Track',
             ),
             NavigationDestination(
               icon: Icon(Icons.settings_outlined),
