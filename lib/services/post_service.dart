@@ -162,9 +162,11 @@ class PostService {
     try {
       _logPost('START', 'Creating new post...');
 
-      // Get current user first since it's needed for other operations
+      // Get current user and validate authentication
       final user = _supabase.auth.currentUser;
-      if (user == null) throw Exception('User not authenticated');
+      if (user == null) {
+        throw Exception('User not authenticated');
+      }
 
       // Start all async operations in parallel
       final Future<Map<String, dynamic>?> locationFuture =
@@ -176,7 +178,10 @@ class PostService {
           .eq('id', user.id)
           .single()
           .then((value) => value as Map<String, dynamic>?)
-          .catchError((e) => null); // Handle case where profile doesn't exist
+          .catchError((e) {
+            _logPost('WARNING', 'Failed to fetch profile', error: e);
+            return null;
+          });
 
       _logPost(
         'PARALLEL',
@@ -194,48 +199,54 @@ class PostService {
       final imageUrl = results[1] as String;
       final profile = results[2] as Map<String, dynamic>?;
 
-      if (locationData != null) {
-        _logPost('LOCATION', 'Location data retrieved', metadata: locationData);
-      } else {
-        _logPost('WARNING', 'Location data not available');
+      // Validate image upload
+      if (imageUrl.isEmpty) {
+        throw Exception('Failed to upload image: Empty URL received');
       }
 
-      _logPost('IMAGE', 'Image upload completed', metadata: {'url': imageUrl});
+      // Validate location data if available
+      if (locationData != null) {
+        if (locationData['latitude'] == null ||
+            locationData['longitude'] == null) {
+          _logPost(
+            'WARNING',
+            'Invalid location data received',
+            metadata: locationData,
+          );
+        }
+      }
 
-      // Handle profile creation if needed (only if parallel fetch didn't find one)
-      if (profile == null) {
-        _logPost('PROFILE', 'Creating new user profile');
-        await _supabase.from('profiles').upsert({
-          'id': user.id,
-          'username':
-              user.email?.split('@')[0] ?? 'user_${user.id.substring(0, 8)}',
-          'updated_at': DateTime.now().toIso8601String(),
-        });
-      } else {
-        _logPost(
-          'PROFILE',
-          'Using existing profile',
-          metadata: {'username': profile['username']},
+      // Handle profile creation/update within a transaction
+      final result = await _supabase.rpc(
+        'create_post_with_profile',
+        params: {
+          'p_user_id': user.id,
+          'p_image_url': imageUrl,
+          'p_location': locationData?['address'] ?? 'Unknown location',
+          'p_latitude': locationData?['latitude'] ?? 0.0,
+          'p_longitude': locationData?['longitude'] ?? 0.0,
+          'p_username':
+              profile?['username'] ??
+              user.email?.split('@')[0] ??
+              'user_${user.id.substring(0, 8)}',
+          'p_user_avatar': profile?['avatar_url'],
+        },
+      );
+
+      if (result == null) {
+        throw Exception(
+          'Failed to create post: Database procedure returned null',
         );
       }
-
-      // Create post record
-      final postData = {
-        'user_id': user.id,
-        'image_url': imageUrl,
-        'location': locationData?['address'] ?? 'Unknown location',
-        'latitude': locationData?['latitude'] ?? 0.0,
-        'longitude': locationData?['longitude'] ?? 0.0,
-      };
-
-      await _supabase.from('posts').insert(postData);
 
       _logPost(
         'SUCCESS',
         'Post created successfully',
         metadata: {
-          'location': postData['location'],
-          'image_url': postData['image_url'],
+          'post_id': result,
+          'location': locationData?['address'] ?? 'Unknown location',
+          'image_url': imageUrl,
+          'username': profile?['username'] ?? 'New user',
         },
       );
 

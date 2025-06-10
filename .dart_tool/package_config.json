@@ -141,13 +141,13 @@
     },
     {
       "name": "camera_android_camerax",
-      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/camera_android_camerax-0.6.18",
+      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/camera_android_camerax-0.6.18+2",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "camera_avfoundation",
-      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.19+1",
+      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.19+2",
       "packageUri": "lib/",
       "languageVersion": "3.6"
     },
@@ -225,19 +225,19 @@
     },
     {
       "name": "custom_lint",
-      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/custom_lint-0.6.4",
+      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/custom_lint-0.6.10",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "custom_lint_builder",
-      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/custom_lint_builder-0.6.4",
+      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/custom_lint_builder-0.6.10",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "custom_lint_core",
-      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/custom_lint_core-0.6.3",
+      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/custom_lint_core-0.6.10",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -549,9 +549,9 @@
     },
     {
       "name": "js",
-      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/js-0.6.7",
+      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/js-0.7.2",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.7"
     },
     {
       "name": "json_annotation",
@@ -807,7 +807,7 @@
     },
     {
       "name": "rxdart",
-      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/rxdart-0.27.7",
+      "rootUri": "file:///Users/thanglee/.pub-cache/hosted/pub.dev/rxdart-0.28.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1142,7 +1142,7 @@
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-06-08T07:15:32.578167Z",
+  "generated": "2025-06-10T09:35:20.734351Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///opt/homebrew/Caskroom/flutter/3.29.3/flutter",

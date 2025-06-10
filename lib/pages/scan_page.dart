@@ -57,11 +57,13 @@ class _ScanPageState extends ConsumerState<ScanPage> {
     });
 
     try {
+      debugPrint('📸 Starting post creation process');
       final locationData = await LocationService.getLocationData();
       final success = await _postService.createPost(_imageFile!.path);
 
       if (mounted) {
         if (success) {
+          debugPrint('✅ Post created successfully, navigating to feed');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
@@ -78,12 +80,19 @@ class _ScanPageState extends ConsumerState<ScanPage> {
             _isPreviewMode = false;
           });
 
+          // Navigate to feed page
           ref.read(currentPageProvider.notifier).state = 1;
+
+          // Wait for navigation to complete
           await Future.delayed(const Duration(milliseconds: 100));
+
           if (mounted) {
-            ref.read(postsProvider.notifier).refreshPosts();
+            debugPrint('🔄 Refreshing feed after post creation');
+            await ref.read(postsProvider.notifier).refreshPosts();
+            debugPrint('✅ Feed refresh completed');
           }
         } else {
+          debugPrint('❌ Failed to create post');
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Failed to create post'),
@@ -93,6 +102,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
         }
       }
     } catch (e) {
+      debugPrint('❌ Error during post creation: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
